@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -rdynamic CMakeFiles/simpleEventLoop.dir/simpleEventLoop.cc.o -o ../../bin/simpleEventLoop  ../../lib/libmuduo_net.a ../../lib/libmuduo_base.a 

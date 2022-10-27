@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG -rdynamic CMakeFiles/test_RectorEvent.dir/test_RectorEvent.cc.o -o ../../bin/test_RectorEvent  ../../lib/libmuduo_net.a ../../lib/libmuduo_base.a 

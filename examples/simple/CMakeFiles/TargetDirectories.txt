@@ -1,0 +1,4 @@
+/home/nikanor/workingspace/self_practice/muduo/examples/simple/CMakeFiles/simpleEventLoop.dir
+/home/nikanor/workingspace/self_practice/muduo/examples/simple/CMakeFiles/test_RectorEvent.dir
+/home/nikanor/workingspace/self_practice/muduo/examples/simple/CMakeFiles/edit_cache.dir
+/home/nikanor/workingspace/self_practice/muduo/examples/simple/CMakeFiles/rebuild_cache.dir

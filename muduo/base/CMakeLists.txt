@@ -6,3 +6,5 @@ set(base_SRCS
     )
 
 add_library(muduo_base ${base_SRCS})
+
+add_subdirectory(tests)

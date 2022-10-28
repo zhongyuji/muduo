@@ -67,9 +67,10 @@ void TimerQueue::addTimerInLoop(Timer* timer)
 
 bool TimerQueue::insert(Timer* timer)
 {
-    bool earliest = false;
+    loop_->assertInLoopThread();
+    bool earliestChanged = false;
 
-    return earliest;
+    return earliestChanged;
 }
 
 void TimerQueue::resertTimerfd()

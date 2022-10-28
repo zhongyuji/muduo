@@ -1,5 +1,6 @@
 #pragma once
 #include "muduo/base/noncopyable.h"
+#include "muduo/base/CountDownLatch.h"
 #include <pthread.h>
 #include <string>
 #include <functional>
@@ -29,6 +30,7 @@ private:
     pid_t tid_;
     std::string name_;
     ThreadFunc func_;
+    CountDownLatch latch_;
 
     static std::atomic<int> numCreated_;
 };

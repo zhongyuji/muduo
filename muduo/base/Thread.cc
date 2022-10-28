@@ -40,18 +40,21 @@ struct ThreadData
     ThreadFunc func_;
     std::string name_;
     pid_t* tid_;
+    CountDownLatch* latch_;
 
-    ThreadData(ThreadFunc func, const std::string& name, pid_t* tid)
+    ThreadData(ThreadFunc func, const std::string& name, pid_t* tid, CountDownLatch* latch)
       : func_(std::move(func)),
         name_(name),
-        tid_(tid)
+        tid_(tid),
+        latch_(latch)
     {}
 
     void runInThread()
     {
         *tid_ = CurrentThread::tid();
         tid_ = NULL;
-
+        latch_->countDown();
+        latch_ = nullptr;
         CurrentThread::t_threadName = name_.empty() ? "muduoThread" : name_.c_str();
         ::prctl(PR_SET_NAME, CurrentThread::t_threadName);
         try {
@@ -107,7 +110,8 @@ Thread::Thread(ThreadFunc cb, const std::string& name) :
     pthreadId_(0),
     tid_(0),
     func_(std::move(cb)),
-    name_(name)
+    name_(name),
+    latch_(1)
 {
     setDefaultName();
 }
@@ -132,13 +136,14 @@ void Thread::start()
 {
     assert(!started_);
     started_ = true;
-    ThreadData* data = new ThreadData(func_, name_, &tid_);
+    ThreadData* data = new ThreadData(func_, name_, &tid_, &latch_);
     if(pthread_create(&pthreadId_, NULL, &startThread, data)) {
         started_ = false;
         delete data;
         printf("failed in phread_create!\n");
     }
     else {
+        latch_.wait();
         assert(tid_ > 0);
     }
 }

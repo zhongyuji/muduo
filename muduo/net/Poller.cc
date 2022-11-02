@@ -19,7 +19,7 @@ Timerstamp Poller::poll(int timeoutMs, ChannelList* activeChannels)
     int numEvents = ::poll(&*pollfds_.begin(), pollfds_.size(), timeoutMs);
     Timerstamp now(Timerstamp::now());
     if (numEvents > 0) {
-        printf("%d events happended!\n");
+        printf("%d events happended!\n", numEvents);
         fillActiveChannels(numEvents, activeChannels);
     }
     else if (numEvents = 0) {

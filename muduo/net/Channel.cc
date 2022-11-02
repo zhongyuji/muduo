@@ -33,6 +33,14 @@ void Channel::handleEvent()
         printf("Channel::handleEvent() POLLNVAL!\n");
     }
 
+    if (revents_ & (POLLIN | POLLPRI | POLLRDHUP)) {
+        if (readCallback_) readCallback_();
+    }
+
+    if (revents_ & POLLOUT) {
+        if (writeCallback_) writeCallback_();
+    }
+
     if(revents_ & (POLLERR | POLLNVAL)) {
         if(errorCallback_) errorCallback_();
     }

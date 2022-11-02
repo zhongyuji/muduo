@@ -12,9 +12,6 @@
 ///
 /// The most common stuffs.
 ///
-namespace muduo
-{
-
 using std::string;
 
 inline void memZero(void* p, size_t n)
@@ -117,8 +114,6 @@ inline To down_cast(From* f)                     // so we only accept pointers
 #endif
   return static_cast<To>(f);
 }
-
-}  // namespace muduo
 
 #endif  // MUDUO_BASE_TYPES_H
 

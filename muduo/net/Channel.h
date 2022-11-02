@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <boost/noncopyable.hpp>
+#include <iostream>
 
 class EventLoop;
 class Channel : public boost::noncopyable
@@ -20,7 +21,7 @@ public:
     int events() const { return events_; }
     void set_revents(int revt) { revents_ = revt; }
     bool isNoneEvent() const { return events_ == kNoneEvent; }
-    void enableReading() { events_ | kReadEvent; update(); }
+    void enableReading() { events_ |= kReadEvent; update(); }
 
     int index() const { return index_; }
     void set_index(int idx) { index_ = idx; }

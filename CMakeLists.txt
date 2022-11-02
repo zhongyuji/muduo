@@ -4,7 +4,23 @@ project(muduo C CXX)
 
 set(CXX_FLAGS 
     -g
-    -std=c++11
+ # -DVALGRIND
+ -DCHECK_PTHREAD_RETURN_VALUE
+ -D_FILE_OFFSET_BITS=64
+ -Wall
+ -Wextra
+ -Werror
+ -Wconversion
+ -Wno-unused-parameter
+ -Wold-style-cast
+ -Woverloaded-virtual
+ -Wpointer-arith
+ -Wshadow
+ -Wwrite-strings
+ -march=native
+ # -MMD
+ -std=c++11
+ -rdynamic
 )
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")

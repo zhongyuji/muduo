@@ -23,4 +23,7 @@ namespace sockets {
               const struct sockaddr* addr);
     void toIp(char* buf, size_t size,
           const struct sockaddr* addr);
+
+    struct sockaddr_in6 getLocalAddr(int sockfd);
+    int getSocketError(int sockfd);
 } //namespace sockets

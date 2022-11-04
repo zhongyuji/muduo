@@ -226,3 +226,30 @@ const struct sockaddr_in6* sockets::sockaddr_in6_cast(const struct sockaddr* add
 {
   return static_cast<const struct sockaddr_in6*>(implicit_cast<const void*>(addr));
 }
+
+struct sockaddr_in6 sockets::getLocalAddr(int sockfd)
+{
+    struct sockaddr_in6 localaddr;
+  memZero(&localaddr, sizeof localaddr);
+  socklen_t addrlen = static_cast<socklen_t>(sizeof localaddr);
+  if (::getsockname(sockfd, sockaddr_cast(&localaddr), &addrlen) < 0)
+  {
+    printf("sockets::getLocalAddr.\n");
+  }
+  return localaddr;
+}
+
+int sockets::getSocketError(int sockfd)
+{
+  int optval;
+  socklen_t optlen = static_cast<socklen_t>(sizeof optval);
+
+  if (::getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &optval, &optlen) < 0)
+  {
+    return errno;
+  }
+  else
+  {
+    return optval;
+  }
+}

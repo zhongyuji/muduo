@@ -13,15 +13,23 @@ public:
     ~Channel();
 
     void handleEvent();
-    void setReadCallback(const EventCallback &func) { readCallback_ = func; }
-    void setWriteCallback(const EventCallback &func) { writeCallback_ = func; }
-    void setErrorCallback(const EventCallback &func) { errorCallback_ = func; }
+    void setReadCallback(const EventCallback func) { readCallback_ = std::move(func); }
+    void setWriteCallback(const EventCallback func) { writeCallback_ = std::move(func); }
+    void setCloseCallback(const EventCallback func) { closeCallback_ = std::move(func); }
+    void setErrorCallback(const EventCallback func) { errorCallback_ = std::move(func); }
 
     int fd() const { return fd_; } 
     int events() const { return events_; }
     void set_revents(int revt) { revents_ = revt; }
     bool isNoneEvent() const { return events_ == kNoneEvent; }
     void enableReading() { events_ |= kReadEvent; update(); }
+    void disableReading() { events_ &= ~kReadEvent; update(); }
+    void evableWriting() { events_ |= kWriteEvent; update(); }
+    void disableWriting() { events_ &= ~kWriteEvent; update(); }
+    void disableAll() { events_ = kNoneEvent; update(); }
+    bool isWriting() const { return events_ & kReadEvent; }
+    bool isReading() const { return events_ & kReadEvent; }
+    bool isNonEvent() const { return events_ == kNoneEvent; }
 
     int index() const { return index_; }
     void set_index(int idx) { index_ = idx; }
@@ -37,9 +45,11 @@ private:
     int events_;
     int revents_;
     int index_; 
+    bool eventHandling_;
 
     EventCallback readCallback_;
     EventCallback writeCallback_;
+    EventCallback closeCallback_;
     EventCallback errorCallback_;
 };
 

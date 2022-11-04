@@ -99,6 +99,20 @@ void EventLoop::updateChannel(Channel* channel)
     poller_->updateChannel(channel);
 }
 
+void EventLoop::removeChannel(Channel* channel)
+{
+    assert(channel->ownerLoop() == this);
+    assertInLoopThread();
+    poller_->removeChannel(channel);
+}
+
+bool EventLoop::hasChannel(Channel* channel)
+{
+    assert(channel->ownerLoop() == this);
+    assertInLoopThread();
+    return poller_->hasChannel(channel);
+}
+
 TimerId EventLoop::runAt(Timerstamp time, TimerCallback cb)
 {
     return timerQueue_->addTimer(std::move(cb), time, 0.0);

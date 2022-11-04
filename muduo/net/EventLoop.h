@@ -27,6 +27,8 @@ public:
     bool isInLoopThread() const;
     void quit();
     void updateChannel(Channel* channel);
+    void removeChannel(Channel* channel);
+    bool hasChannel(Channel* channel);
     
     TimerId runAt(Timerstamp time, TimerCallback cb);
     TimerId runAfter(double delay, TimerCallback cb);

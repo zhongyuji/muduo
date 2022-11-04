@@ -18,6 +18,9 @@ public:
 
     Timerstamp poll(int timeoutMs, ChannelList* activeChannels);
     void updateChannel(Channel* channel);
+    void removeChannel(Channel* channel);
+    bool hasChannel(Channel* channel);
+
     void assertInLoopThread();
 private:
     void fillActiveChannels(int numEvents, ChannelList* activeChannels) const;

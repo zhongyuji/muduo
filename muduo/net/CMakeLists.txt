@@ -5,6 +5,8 @@ set(net_SRCS
     EventLoopThread.cc
     Channel.cc
     Poller.cc
+    TcpServer.cc
+    TcpConnection.cc
     Timer.cc
     TimerQueue.cc
     Socket.cc

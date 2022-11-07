@@ -13,6 +13,9 @@ void onMessage(const TcpConnectionPtr& conn, Buffer* buf, Timerstamp tm)
 {
     std::string msg(buf->retrieveAllAsString());
     printf("%s\n", msg.c_str());  
+    if (conn->connected()) {
+        conn->send(buf);
+    }
 }
 
 int main(int args, char** argv)

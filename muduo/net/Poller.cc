@@ -41,7 +41,7 @@ void Poller::fillActiveChannels(int numEvents, ChannelList* activeChannels) cons
             ChannelMap::const_iterator ch = channels_.find(pfd->fd);
             assert(ch != channels_.end());
             Channel* channel = ch->second;
-            assert(channel->fd() != pfd->fd);
+            assert(channel->fd() == pfd->fd);
             channel->set_revents(pfd->revents);
             activeChannels->push_back(channel);
         }

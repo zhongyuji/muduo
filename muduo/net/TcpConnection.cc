@@ -133,7 +133,6 @@ void TcpConnection::connectDestoryed()
     setState(kDisconnected);
     channel_->disableAll();
     connectionCallback_(shared_from_this());
-    channel_->enableReading();
 
     loop_->removeChannel(get_pointer(channel_));
 }

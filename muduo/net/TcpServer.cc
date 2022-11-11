@@ -51,7 +51,7 @@ void TcpServer::start()
 {
    if (started_ == false) {
         started_ = true;
-        assert(!accpetor_->listening());
+        assert(!acceptor_->listening());
         loop_->runInLoop(std::bind(&Acceptor::listen, get_pointer(acceptor_)));
    } 
 }

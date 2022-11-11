@@ -103,14 +103,14 @@ bool CurrentThread::isMainThread()
     return tid() == ::getpid();
 }
 
-std::atomic<int> Thread::numCreated_ = 0;
+std::atomic<int> Thread::numCreated_(0);
 Thread::Thread(ThreadFunc cb, const std::string& name) :
     started_(false),
     joined_(false),
     pthreadId_(0),
     tid_(0),
-    func_(std::move(cb)),
     name_(name),
+    func_(std::move(cb)),
     latch_(1)
 {
     setDefaultName();

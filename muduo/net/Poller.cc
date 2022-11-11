@@ -82,7 +82,7 @@ void Poller::removeChannel(Channel* channel)
 {
     assertInLoopThread();
     printf("Poller::removeChannel() fd = %d \n", channel->fd());
-    assert(channels_.find(channel->fd() != channels_.end()));
+    assert(channels_.find(channel->fd()) != channels_.end());
     assert(channels_[channel->fd()] == channel);
     assert(channel->isNonEvent());
     int idx = channel->index();

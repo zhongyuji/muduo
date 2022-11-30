@@ -9,6 +9,7 @@
 #include <atomic>
 #include <memory>
 class EventLoop;
+class EventLoopThreadPool;
 class TcpServer : noncopyable
 {
 public:
@@ -30,7 +31,7 @@ private:
     EventLoop* loop_;
     std::string name_;
     std::unique_ptr<Acceptor> acceptor_;
-
+    std::shared_ptr<EventLoopThreadPool> threadPool_;
     ConnectionCallback connectionCallback_;
     CloseCallback closeCallback_;
     MessageCallback messageCallback_;

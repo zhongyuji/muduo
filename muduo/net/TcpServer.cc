@@ -2,11 +2,13 @@
 #include "muduo/net/EventLoop.h"
 #include "muduo/net/Acceptor.h"
 #include "muduo/net/SocketsOps.h"
+#include "muduo/net/EventLoopThreadPool.h"
 
 TcpServer::TcpServer(EventLoop* loop, const InetAddress& listenAddr, const std::string& nameArg)
     :   loop_(loop),
         name_(nameArg),
         acceptor_(new Acceptor(loop, listenAddr, true)),
+        threadPool_(new EventLoopThreadPool(loop, "ThreadPool")),
         connectionCallback_(defaultConnectionCallback),
         messageCallback_(defaultMessageCallback),
         started_(false),
@@ -29,13 +31,14 @@ TcpServer::~TcpServer()
 void TcpServer::newConnection(int sockfd, const InetAddress& peerAddr)
 {
     loop_->assertInLoopThread();
+    EventLoop* ioLoop = threadPool_->getNextLoop();
     char buf[32];
     snprintf(buf, sizeof(buf), "#%d", nextConnId_);
     ++nextConnId_;
     std::string connName = name_ + buf;
     printf("TcpServer::newConnection name = %s, new connection name = %s, form %s.\n", name_.c_str(), connName.c_str(), peerAddr.toIpPort().c_str());
     InetAddress localAddr(sockets::getLocalAddr(sockfd));
-    TcpConnectionPtr conn(new TcpConnection(loop_,
+    TcpConnectionPtr conn(new TcpConnection(ioLoop,
                                           connName,
                                           sockfd,
                                           localAddr,
@@ -44,7 +47,7 @@ void TcpServer::newConnection(int sockfd, const InetAddress& peerAddr)
     conn->setConnectionCallback(connectionCallback_);
     conn->setMessageCallback(messageCallback_);
     conn->setCloseCallback(std::bind(&TcpServer::removeConnection, this, std::placeholders::_1));
-    conn->connectEstablished();
+    ioLoop->runInLoop(std::bind(&TcpConnection::connectEstablished, conn));
 }
 
 void TcpServer::start()
